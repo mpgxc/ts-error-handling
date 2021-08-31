@@ -1,7 +1,18 @@
 class Password {
-  private constructor(private readonly _value: string) {}
+  private constructor(private readonly _value: string) { }
 
   private static validate(value: string): boolean {
+
+    const valueTrimming = value.trim();
+
+    if (!valueTrimming || valueTrimming.length < 8 || valueTrimming.length > 32) {
+      return false;
+    }
+
+    if (!valueTrimming.match(/^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$ %^&*-]).{8,}$/)) {
+      return false;
+    }
+
     return true;
   }
 
@@ -11,7 +22,7 @@ class Password {
 
   public static build(value: string): Password {
     if (!this.validate(value)) {
-      return new Password(value);
+      throw new Error("Invalid password");
     }
 
     return new Password(value);

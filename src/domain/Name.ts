@@ -1,7 +1,13 @@
 class Name {
-  private constructor(private readonly _value: string) {}
+  private constructor(private readonly _value: string) { }
 
   private static validate(value: string): boolean {
+    const valueTrimmed = this.format(value);
+
+    if (!valueTrimmed || valueTrimmed.length < 5 || valueTrimmed.length > 255) {
+      return false;
+    }
+
     return true;
   }
 
@@ -9,12 +15,18 @@ class Name {
     return this._value;
   }
 
+  private static format(value: string): string {
+    return value.trim()
+  }
+
   public static build(value: string): Name {
     if (!this.validate(value)) {
-      return new Name(value);
+      throw new Error('Invalid name');
     }
 
-    return new Name(value);
+    const valueTrimmed = this.format(value);
+
+    return new Name(valueTrimmed);
   }
 }
 

@@ -1,7 +1,16 @@
 class Email {
-  private constructor(private readonly _value: string) {}
+  private constructor(private readonly _value: string) { }
 
   private static validate(value: string): boolean {
+
+    const valueTrimmed = this.format(value);
+
+    const pattern = /^[^@ \t\r\n]+@[^@ \t\r\n]+\.[^@ \t\r\n]+$/
+
+    if (!valueTrimmed || !pattern.test(valueTrimmed)) {
+      return false;
+    }
+
     return true;
   }
 
@@ -9,12 +18,18 @@ class Email {
     return this._value;
   }
 
+  private static format(value: string): string {
+    return value.trim().toLowerCase();
+  }
+
   public static build(value: string): Email {
     if (!this.validate(value)) {
-      return new Email(value);
+      throw new Error('Invalid email');
     }
 
-    return new Email(value);
+    const valueTrimmed = this.format(value);
+
+    return new Email(valueTrimmed);
   }
 }
 
