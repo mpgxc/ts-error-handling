@@ -1,36 +1,35 @@
 class Email {
-  private constructor(private readonly _value: string) { }
+    private constructor(private readonly _value: string) {}
 
-  private static validate(value: string): boolean {
+    private static validate(value: string): boolean {
+        const valueTrimmed = this.format(value);
 
-    const valueTrimmed = this.format(value);
+        const pattern = /^[^@ \t\r\n]+@[^@ \t\r\n]+\.[^@ \t\r\n]+$/;
 
-    const pattern = /^[^@ \t\r\n]+@[^@ \t\r\n]+\.[^@ \t\r\n]+$/
+        if (!valueTrimmed || !pattern.test(valueTrimmed)) {
+            return false;
+        }
 
-    if (!valueTrimmed || !pattern.test(valueTrimmed)) {
-      return false;
+        return true;
     }
 
-    return true;
-  }
-
-  get value(): string {
-    return this._value;
-  }
-
-  private static format(value: string): string {
-    return value.trim().toLowerCase();
-  }
-
-  public static build(value: string): Email {
-    if (!this.validate(value)) {
-      throw new Error('Invalid email');
+    get value(): string {
+        return this._value;
     }
 
-    const valueTrimmed = this.format(value);
+    private static format(value: string): string {
+        return value.trim().toLowerCase();
+    }
 
-    return new Email(valueTrimmed);
-  }
+    public static build(value: string): Email {
+        if (!this.validate(value)) {
+            throw new Error('Invalid email');
+        }
+
+        const valueTrimmed = this.format(value);
+
+        return new Email(valueTrimmed);
+    }
 }
 
 export { Email };

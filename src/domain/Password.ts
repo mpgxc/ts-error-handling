@@ -1,32 +1,39 @@
 class Password {
-  private constructor(private readonly _value: string) { }
+    private constructor(private readonly _value: string) {}
 
-  private static validate(value: string): boolean {
+    private static validate(value: string): boolean {
+        const valueTrimming = value.trim();
 
-    const valueTrimming = value.trim();
+        if (
+            !valueTrimming ||
+            valueTrimming.length < 8 ||
+            valueTrimming.length > 32
+        ) {
+            return false;
+        }
 
-    if (!valueTrimming || valueTrimming.length < 8 || valueTrimming.length > 32) {
-      return false;
+        if (
+            !valueTrimming.match(
+                /^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$ %^&*-]).{8,}$/,
+            )
+        ) {
+            return false;
+        }
+
+        return true;
     }
 
-    if (!valueTrimming.match(/^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$ %^&*-]).{8,}$/)) {
-      return false;
+    get value(): string {
+        return this._value;
     }
 
-    return true;
-  }
+    public static build(value: string): Password {
+        if (!this.validate(value)) {
+            throw new Error('Invalid password');
+        }
 
-  get value(): string {
-    return this._value;
-  }
-
-  public static build(value: string): Password {
-    if (!this.validate(value)) {
-      throw new Error("Invalid password");
+        return new Password(value);
     }
-
-    return new Password(value);
-  }
 }
 
 export { Password };
