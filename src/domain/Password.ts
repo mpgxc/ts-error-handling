@@ -4,19 +4,10 @@ class Password {
     private static validate(value: string): boolean {
         const valueTrimming = value.trim();
 
-        if (
-            !valueTrimming ||
-            valueTrimming.length < 8 ||
-            valueTrimming.length > 32
-        ) {
-            return false;
-        }
+        const pattern =
+            /^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$ %^&*-]).{8,32}$/;
 
-        if (
-            !valueTrimming.match(
-                /^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$ %^&*-]).{8,}$/,
-            )
-        ) {
+        if (!pattern.test(valueTrimming)) {
             return false;
         }
 
