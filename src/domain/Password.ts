@@ -1,3 +1,7 @@
+import { DomainError } from '../commons/DomainError';
+import { Either, Result } from '../commons/DomainResult';
+import { InvalidPassword } from './Errors';
+
 class Password {
     private constructor(private readonly _value: string) {}
 
@@ -18,12 +22,12 @@ class Password {
         return this._value;
     }
 
-    public static build(value: string): Password {
+    public static build(value: string): Either<Password, DomainError> {
         if (!this.validate(value)) {
-            throw new Error('Invalid password');
+            return Result.Failure(InvalidPassword(value));
         }
 
-        return new Password(value);
+        return Result.Success(new Password(value));
     }
 }
 
