@@ -5,17 +5,16 @@ type ExceptionProps = {
     message: string;
 };
 
-class AppException {
+class AppException extends Error {
     public readonly name: string;
-    public readonly message: string;
     public readonly statusCode: number;
 
     private constructor(
         { name, message }: ExceptionProps,
         statusCode?: number,
     ) {
+        super(message);
         this.name = name;
-        this.message = message;
         this.statusCode = statusCode || 500;
     }
 
