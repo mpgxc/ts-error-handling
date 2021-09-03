@@ -23,12 +23,12 @@ describe('Domain/Password', () => {
         const passwordOrError5 = Password.build('QWERTYUIOPASDFGHJKLMNBVCX');
         const passwordOrError6 = Password.build('A14#'.repeat(10));
 
-        expect(passwordOrError.isFailure).toBe(true);
-        expect(passwordOrError1.isFailure).toBe(true);
-        expect(passwordOrError2.isFailure).toBe(true);
-        expect(passwordOrError3.isFailure).toBe(true);
-        expect(passwordOrError4.isFailure).toBe(true);
-        expect(passwordOrError5.isFailure).toBe(true);
-        expect(passwordOrError6.isFailure).toBe(true);
+        expect(passwordOrError.isSuccess).toBe(false);
+        expect(passwordOrError1.isSuccess).toBe(false);
+        expect(passwordOrError2.isSuccess).toBe(false);
+        expect(passwordOrError3.isSuccess).toBe(false);
+        expect(passwordOrError4.isSuccess).toBe(false);
+        expect(passwordOrError5.isSuccess).toBe(false);
+        expect(passwordOrError6.isSuccess).toBe(false);
     });
 });

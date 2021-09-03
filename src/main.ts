@@ -9,9 +9,22 @@ const name = Name.build('Um bom name');
 const email = Email.build('sdsdsWWFSFSdsdsd@gmail.com  ');
 
 const passwordOrError = Password.build('un2ned');
+const passwordOrError2 = Password.build('un2ne##)FEFDF54fdd');
 
-if (passwordOrError.isFailure) {
-    throw AppException.build(passwordOrError.value, 400);
+if (!passwordOrError2.isSuccess) {
+    throw AppException.build(passwordOrError2.value);
+}
+
+const account2 = Account.build({
+    email,
+    name,
+    password: passwordOrError2.value,
+});
+
+console.log(AccountMapper.toPersistence(account2));
+
+if (!passwordOrError.isSuccess) {
+    throw AppException.build(passwordOrError.value);
 }
 
 const account = Account.build({
