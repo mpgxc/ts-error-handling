@@ -1,3 +1,7 @@
+import { DomainError } from '../commons/DomainError';
+import { Either, Result } from '../commons/DomainResult';
+import { InvalidName } from './Errors';
+
 class Name {
     private constructor(private readonly _value: string) {}
 
@@ -23,14 +27,14 @@ class Name {
         return value.trim();
     }
 
-    public static build(value: string): Name {
+    public static build(value: string): Either<Name, DomainError> {
         if (!this.validate(value)) {
-            throw new Error('Invalid name');
+            return Result.Failure(InvalidName(value));
         }
 
         const valueTrimmed = this.format(value);
 
-        return new Name(valueTrimmed);
+        return Result.Success(new Name(valueTrimmed));
     }
 }
 

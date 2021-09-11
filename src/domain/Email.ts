@@ -1,3 +1,7 @@
+import { DomainError } from '../commons/DomainError';
+import { Either, Result } from '../commons/DomainResult';
+import { InvalidEmail } from './Errors';
+
 class Email {
     private constructor(private readonly _value: string) {}
 
@@ -21,14 +25,14 @@ class Email {
         return value.trim().toLowerCase();
     }
 
-    public static build(value: string): Email {
+    public static build(value: string): Either<Email, DomainError> {
         if (!this.validate(value)) {
-            throw new Error('Invalid email');
+            return Result.Failure(InvalidEmail(value));
         }
 
         const valueTrimmed = this.format(value);
 
-        return new Email(valueTrimmed);
+        return Result.Success(new Email(valueTrimmed));
     }
 }
 
