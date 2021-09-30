@@ -1,5 +1,5 @@
-import { DomainError } from '../commons/DomainError';
 import { Either, Result } from '../commons/DomainResult';
+import { IDomainError } from '../commons/IDomainError';
 import { InvalidName } from './Errors';
 
 class Name {
@@ -27,7 +27,7 @@ class Name {
         return value.trim();
     }
 
-    public static build(value: string): Either<Name, DomainError> {
+    public static build(value: string): Either<Name, IDomainError> {
         if (!this.validate(value)) {
             return Result.Failure(InvalidName(value));
         }

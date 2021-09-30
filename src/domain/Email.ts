@@ -1,5 +1,5 @@
-import { DomainError } from '../commons/DomainError';
 import { Either, Result } from '../commons/DomainResult';
+import { IDomainError } from '../commons/IDomainError';
 import { InvalidEmail } from './Errors';
 
 class Email {
@@ -25,7 +25,7 @@ class Email {
         return value.trim().toLowerCase();
     }
 
-    public static build(value: string): Either<Email, DomainError> {
+    public static build(value: string): Either<Email, IDomainError> {
         if (!this.validate(value)) {
             return Result.Failure(InvalidEmail(value));
         }

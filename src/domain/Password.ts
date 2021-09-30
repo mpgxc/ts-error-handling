@@ -1,5 +1,5 @@
-import { DomainError } from '../commons/DomainError';
 import { Either, Result } from '../commons/DomainResult';
+import { IDomainError } from '../commons/IDomainError';
 import { InvalidPassword } from './Errors';
 
 class Password {
@@ -22,7 +22,7 @@ class Password {
         return this._value;
     }
 
-    public static build(value: string): Either<Password, DomainError> {
+    public static build(value: string): Either<Password, IDomainError> {
         if (!this.validate(value)) {
             return Result.Failure(InvalidPassword(value));
         }
