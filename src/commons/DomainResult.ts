@@ -13,12 +13,12 @@ interface IFailureResult<S, F> extends IDomainResult<S, F> {
     isSuccess: false;
 }
 
-const Success = <S, F>(value: S): ISuccessResult<S, never> => ({
+const Success = <S>(value: S): ISuccessResult<S, never> => ({
     value,
     isSuccess: true,
 });
 
-const Failure = <S, F>(value: F): IFailureResult<never, F> => ({
+const Failure = <F>(value: F): IFailureResult<never, F> => ({
     value,
     isSuccess: false,
 });
@@ -27,4 +27,4 @@ type Either<S, F> = ISuccessResult<S, F> | IFailureResult<S, F>;
 
 const Result = { Success, Failure };
 
-export { IDomainResult, ISuccessResult, IFailureResult, Result, Either };
+export { Result, Either };
