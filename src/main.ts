@@ -1,15 +1,24 @@
+import { AppException } from './application/AppException';
 import { RegisterAccount } from './application/RegisterAccount';
 
-// Sucess
-RegisterAccount.build({
+// Success
+const user = RegisterAccount.build({
     email: 'testes@gmail.com',
     name: 'teste',
     password: 'testMe#45',
 });
 
+if (!user.isSuccess) {
+    throw AppException.build(user.value);
+}
+
 // Failure
-RegisterAccount.build({
-    email: 'xxxxxxxx',
-    name: 'xx',
-    password: 'xxxxxxxxxxxxxxxx',
+const user2 = RegisterAccount.build({
+    email: 'mpgx5.c@gmail.com',
+    name: 'c',
+    password: '123efddfd@$Fus',
 });
+
+if (!user2.isSuccess) {
+    throw AppException.build(user2.value, 422);
+}

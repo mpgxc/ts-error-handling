@@ -1,9 +1,10 @@
+import { Either, Result } from '../commons/DomainResult';
+import { IDomainError } from '../commons/IDomainError';
 import { Account } from '../domain/Account';
 import { AccountMapper } from '../domain/AccountMapper';
 import { Email } from '../domain/Email';
 import { Name } from '../domain/Name';
 import { Password } from '../domain/Password';
-import { AppException } from './AppException';
 
 type RegisterAccountRequest = {
     name: string;
@@ -16,21 +17,21 @@ class RegisterAccount {
         email,
         name,
         password,
-    }: RegisterAccountRequest): void {
+    }: RegisterAccountRequest): Either<Account, IDomainError> {
         const nameOrError = Name.build(name);
         const emailOrError = Email.build(email);
         const passwordOrError = Password.build(password);
 
         if (!nameOrError.isSuccess) {
-            throw AppException.build(nameOrError.value);
+            return Result.Failure(nameOrError.value);
         }
 
         if (!emailOrError.isSuccess) {
-            throw AppException.build(emailOrError.value);
+            return Result.Failure(emailOrError.value);
         }
 
         if (!passwordOrError.isSuccess) {
-            throw AppException.build(passwordOrError.value);
+            return Result.Failure(passwordOrError.value);
         }
 
         const account = Account.build({
@@ -42,6 +43,8 @@ class RegisterAccount {
         const accountProps = AccountMapper.toPersistence(account);
 
         console.log('Saved!', accountProps);
+
+        return Result.Success(account);
     }
 }
 
