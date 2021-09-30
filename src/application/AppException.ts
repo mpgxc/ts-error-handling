@@ -1,4 +1,4 @@
-import { DomainError } from '../commons/DomainError';
+import { IDomainError } from '../commons/IDomainError';
 
 type ExceptionProps = {
     name: string;
@@ -16,9 +16,15 @@ class AppException extends Error {
         super(message);
         this.name = name;
         this.statusCode = statusCode || 500;
+
+        console.log({
+            name: this.name,
+            message: this.message,
+            statusCode: this.statusCode,
+        });
     }
 
-    static build(error: DomainError, statusCode?: number): AppException {
+    static build(error: IDomainError, statusCode?: number): AppException {
         return new AppException(
             {
                 name: error.name,
